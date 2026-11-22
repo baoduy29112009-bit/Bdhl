@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảo Duy 3D Lab</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+}
+header {
+  padding: 22px;
+  background: #17243a;
+  text-align: center;
+}
+header h1 { color: #38bdf8; }
+main { padding: 20px; }
+.card {
+  background: #1e293b;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 14px;
+}
+button {
+  background: #0284c7;
+  color: white;
+  border: 0;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin: 5px;
+}
+canvas {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>BAO DUY 3D LAB</h1>
+  <p>Khám phá thế giới hình học và máy móc 3D</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Phòng thí nghiệm 3D</h2>
+    <canvas id="scene"></canvas>
+    <button onclick="changeShape('cube')">Khối lập phương</button>
+    <button onclick="changeShape('sphere')">Hình cầu</button>
+    <button onclick="changeShape('cylinder')">Hình trụ</button>
+  </section>
+
+  <section class="card">
+    <h2>Giới thiệu</h2>
+    <p>Đây là không gian mô phỏng 3D và khám phá nguyên lý hoạt động của máy móc.</p>
+  </section>
+</main>
+
+<footer>© 2026 Bao Duy 3D Lab</footer>
+
+<script>
+const canvas = document.getElementById("scene");
+const ctx = canvas.getContext("2d");
+let shape = "cube";
+let angle = 0;
+
+function changeShape(name) {
+  shape = name;
+}
+
+function draw() {
+  const w = canvas.width = canvas.clientWidth * devicePixelRatio;
+  const h = canvas.height = canvas.clientHeight * devicePixelRatio;
+  ctx.clearRect(0, 0, w, h);
+  ctx.save();
+  ctx.translate(w / 2, h / 2);
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  ctx.rotate(angle);
+
+  ctx.strokeStyle = "#38bdf8";
+  ctx.lineWidth = 3;
+
+  if (shape === "cube") {
+    ctx.strokeRect(-65, -65, 130, 130);
+    ctx.strokeRect(-35, -90, 130, 130);
+    ctx.beginPath();
+    ctx.moveTo(-65,-65); ctx.lineTo(-35,-90);
+    ctx.moveTo(65,-65); ctx.lineTo(95,-90);
+    ctx.moveTo(-65,65); ctx.lineTo(-35,40);
+    ctx.moveTo(65,65); ctx.lineTo(95,40);
+    ctx.stroke();
+  } else if (shape === "sphere") {
+    ctx.beginPath();
+    ctx.arc(0,0,70,0,Math.PI*2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(0,0,70,25,0,0,Math.PI*2);
+    ctx.stroke();
+  } else {
+    ctx.beginPath();
+    ctx.ellipse(0,-55,65,22,0,0,Math.PI*2);
+    ctx.moveTo(-65,-55); ctx.lineTo(-65,55);
+    ctx.ellipse(0,55,65,22,0,0,Math.PI);
+    ctx.moveTo(65,-55); ctx.lineTo(65,55);
+    ctx.stroke();
+  }
+  ctx.restore();
+  angle += 0.008;
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
